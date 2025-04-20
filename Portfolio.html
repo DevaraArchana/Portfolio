@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Professional Portfolio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            padding: 30px 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .name {
+            margin-top: 15px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .title {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .nav-menu {
+            margin-top: 30px;
+        }
+
+        .nav-item {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #34495e;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link:hover {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .nav-link:hover::before {
+            left: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            animation: fadeInUp 0.8s ease-in-out;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #3498db;
+            animation: expandLine 1s ease-in-out;
+        }
+
+        .content {
+            max-width: 800px;
+        }
+
+        .welcome-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .highlight {
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        .education-item {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 3px solid #3498db;
+            position: relative;
+        }
+
+        .education-item::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #3498db;
+            left: -8px;
+            top: 5px;
+        }
+
+        .education-year {
+            font-weight: 600;
+            color: #3498db;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .skill {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .skill:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: #3498db;
+            color: white;
+        }
+
+        .objective-text {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+
+        .contact-info {
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover .contact-icon {
+            transform: rotate(15deg) scale(1.1);
+            background: #2980b9;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes expandLine {
+            from { width: 0; }
+            to { width: 50px; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .nav-menu {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .nav-item {
+                margin-bottom: 0;
+            }
+            
+            .nav-link {
+                padding: 10px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="profile">
+                <img src="D:/Portfolio/c43cafb1-8d2f-48a1-bf76-d1d63c371cbf.jpg" alt="Profile Photo" class="profile-img">
+                <h1 class="name">Devara Archana</h1>
+                <p class="title">Web Developer</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active" data-section="home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#education" class="nav-link" data-section="education">Education</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#skills" class="nav-link" data-section="skills">Skills</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#objective" class="nav-link" data-section="objective">Career Objective</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <section id="home" class="section active">
+                <h1 class="section-title">Welcome to My Portfolio</h1>
+                <div class="content">
+                    <p class="welcome-text">
+                        Hello! I'm <span class="highlight">Devara Archana</span>, a passionate professional dedicated to excellence in my field. 
+                        With a strong background and diverse skill set, I strive to deliver outstanding results 
+                        in every project I undertake.
+                    </p>
+                    <p class="welcome-text">
+                        This portfolio showcases my <span class="highlight">education</span>, <span class="highlight">skills</span>, 
+                        and <span class="highlight">professional journey</span>. Feel free to explore and learn more about me.
+                    </p>
+                    <p class="welcome-text">
+                        I'm always open to new opportunities and collaborations. If you'd like to connect, 
+                        please visit the <span class="highlight">Contact</span> section.
+                    </p>
+                </div>
+            </section>
+
+            <section id="education" class="section">
+                <h1 class="section-title">Education</h1>
+                <div class="content">
+                    <div class="education-item">
+                        <h3>Post Graduation in Master of Computer Applications</h3>
+                        <p class="education-year">2024 - 2026</p>
+                        <p>Vaagdevi Degree and PG College, Hanamkonda</p>
+                        <p>Specialization: Computer Science</p>
+                    </div>
+                    <div class="education-item">
+                        <h3>Graduation in Bachelor of Science</h3>
+                        <p class="education-year">2021 - 2024</p>
+                        <p>Padmavathi Degree College, Warangal</p>
+                        <p>Graduated with Honors</p>
+                    </div>
+                    <div class="education-item">
+                        <h3>Intermediate</h3>
+                        <p class="education-year">2019 - 2021</p>
+                        <p>SR Junior College, Warangal</p>
+                        <p>Major: Mathematics, Physics, Chemistry</p>
+                    </div>
+                    <div class="education-item">
+                        <h3>High School</h3>
+                        <p class="education-year">2018 - 2019</p>
+                        <p>SR High School, Warangal</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="section">
+                <h1 class="section-title">Skills</h1>
+                <div class="content">
+                    <h3>Technical Skills</h3>
+                    <div class="skills-container">
+                        <div class="skill">HTML/CSS</div>
+                        <div class="skill">JavaScript</div>
+                        <div class="skill">Python</div>
+                        <div class="skill">Java</div>
+                        <div class="skill">SQL</div>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px;">Professional Skills</h3>
+                    <div class="skills-container">
+                        <div class="skill">Project Management</div>
+                        <div class="skill">Team Leadership</div>
+                        <div class="skill">Communication</div>
+                        <div class="skill">Problem Solving</div>
+                        <div class="skill">Critical Thinking</div>
+                        <div class="skill">Time Management</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="objective" class="section">
+                <h1 class="section-title">Career Objective</h1>
+                <div class="content">
+                    <div class="objective-text">
+                        <p>To secure a challenging position in a reputable organization where I can utilize my skills, knowledge, and experience to contribute to organizational growth while having the opportunity for career advancement.</p>
+                        <p style="margin-top: 15px;">I aim to work in an environment that encourages continuous learning and provides exposure to new ideas that stimulate personal and professional growth.</p>
+                        <p style="margin-top: 15px;">With my strong technical background and problem-solving abilities, I strive to develop innovative solutions that create value for both the organization and its clients.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="section">
+                <h1 class="section-title">Contact</h1>
+                <div class="content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div>
+                                <h3>Email</h3>
+                                <p>devararchana2003@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div>
+                                <h3>Phone</h3>
+                                <p>+918074106891</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🏠</div>
+                            <div>
+                                <h3>Address</h3>
+                                <p>Chintal, Wrangal- 506002.</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🔗</div>
+                            <div>
+                                <h3>LinkedIn</h3>
+                                <p>https://www.linkedin.com/in/devara-archana-8933912b1/</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    this.classList.add('active');
+
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                });
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
